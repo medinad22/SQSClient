@@ -9,16 +9,24 @@ namespace SQSClient.Controllers
     public class SqsController : ControllerBase
     {
         private readonly ISQSService _sqsService;
+        private readonly ISwapiCore _swapiCore;
 
-        public SqsController(ISQSService sqsService)
+        public SqsController(ISQSService sqsService, ISwapiCore swapiCore)
         {
             _sqsService = sqsService;
+            _swapiCore = swapiCore;
         }
 
         [HttpGet]
         public async Task Get()
         {
             await _sqsService.SendSqsLocalStack();
+        }
+
+        [HttpPost("syncPeople")]
+        public async Task Sync()
+        {
+            await _swapiCore.SyncPeople();
         }
     }
 }
